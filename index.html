@@ -3,8 +3,12 @@
 <head>
     <title>Lifetime Sleep Calculator</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
     <style>
+        :root {
+            --percentage: 0;
+        }
+
         body {
             margin: 0;
             font-family: 'Segoe UI', sans-serif;
@@ -35,6 +39,123 @@
             width: 100%;
             padding: 12px;
             margin: 10px 0;
+            border-radius: 10px;
+            border: none;
+            font-size: 16px;
+            outline: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 15px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            background: #00c6ff;
+            color: white;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #0072ff;
+            transform: scale(1.05);
+        }
+
+        .result {
+            margin-top: 20px;
+            opacity: 0;
+            transition: opacity 0.8s ease;
+        }
+
+        .show {
+            opacity: 1;
+        }
+
+        /* Animated Circle */
+        .circle {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            margin: 20px auto;
+            background: conic-gradient(#00c6ff calc(var(--percentage) * 1%), rgba(255,255,255,0.1) 0%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 1s ease;
+        }
+
+        .number {
+            font-size: 32px;
+            font-weight: bold;
+        }
+
+        .big-text {
+            font-size: 18px;
+            margin-top: 10px;
+        }
+
+        .sub-text {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="card">
+    <h2>🌙 Lifetime Sleep Calculator</h2>
+
+    <input type="number" id="age" placeholder="Your age (years)">
+    <input type="number" id="sleepPerDay" placeholder="Average sleep per day (hours)">
+
+    <button onclick="calculateSleep()">Calculate</button>
+
+    <div class="result" id="result"></div>
+</div>
+
+<script>
+function calculateSleep() {
+
+    let age = parseFloat(document.getElementById("age").value);
+    let sleepPerDay = parseFloat(document.getElementById("sleepPerDay").value);
+    let resultBox = document.getElementById("result");
+
+    if (isNaN(age) || isNaN(sleepPerDay) || age <= 0 || sleepPerDay <= 0) {
+        resultBox.innerHTML = "Please enter valid numbers.";
+        resultBox.classList.add("show");
+        return;
+    }
+
+    let totalDaysLived = age * 365.25;
+    let totalHoursSlept = totalDaysLived * sleepPerDay;
+    let totalYearsSlept = (totalHoursSlept / 24) / 365.25;
+    let percentage = (sleepPerDay / 24) * 100;
+
+    resultBox.innerHTML = `
+        <div class="circle">
+            <div class="number">${percentage.toFixed(1)}%</div>
+        </div>
+        <p class="big-text">You’ve slept <b>${totalYearsSlept.toFixed(2)} YEARS</b> of your life.</p>
+        <p class="sub-text">That’s ${percentage.toFixed(1)}% of your entire existence.</p>
+    `;
+
+    resultBox.classList.add("show");
+
+    document.documentElement.style.setProperty('--percentage', percentage);
+}
+</script>
+
+</body>
+</html>            margin: 10px 0;
             border-radius: 10px;
             border: none;
             font-size: 16px;
