@@ -118,16 +118,7 @@
 </div>
 
 <script>
-function calculateSleep() 
-function shareResult(percentage, years) {
-    const text = `I’ve slept ${years} years of my life 😳 That’s ${percentage}% of my existence.
-
-Check yours here: ${window.location.href}`;
-
-    navigator.clipboard.writeText(text).then(() => {
-        alert("Result copied! Paste it in Instagram 🚀");
-    });
-}{
+function calculateSleep() {
     const age = parseFloat(document.getElementById("age").value);
     const sleepPerDay = parseFloat(document.getElementById("sleepPerDay").value);
     const resultBox = document.getElementById("result");
@@ -144,20 +135,30 @@ Check yours here: ${window.location.href}`;
     const percentage = (sleepPerDay / 24) * 100;
 
     resultBox.innerHTML = `
-       resultBox.innerHTML = `
-    <div class="circle">
-        <div class="number">${percentage.toFixed(1)}%</div>
-    </div>
+        <div class="circle">
+            <div class="number">${percentage.toFixed(1)}%</div>
+        </div>
 
-    <p class="big-text">You’ve slept <b>${yearsSlept.toFixed(2)} years</b> of your life.</p>
-    <p class="sub-text">That’s ${percentage.toFixed(1)}% of your entire existence.</p>
+        <p class="big-text">You’ve slept <b>${yearsSlept.toFixed(2)} years</b> of your life.</p>
+        <p class="sub-text">That’s ${percentage.toFixed(1)}% of your entire existence.</p>
 
-    <button onclick="shareResult(${percentage.toFixed(1)}, ${yearsSlept.toFixed(2)})">
-        Share My Result
-    </button>
-`;
+        <button onclick="shareResult(${percentage.toFixed(1)}, ${yearsSlept.toFixed(2)})">
+            Share My Result
+        </button>
+    `;
+
     document.documentElement.style.setProperty('--percentage', percentage);
     resultBox.classList.add("show");
+}
+
+function shareResult(percentage, years) {
+    const text = `I’ve slept ${years} years of my life 😳 That’s ${percentage}% of my existence.
+
+Check yours here: ${window.location.href}`;
+
+    navigator.clipboard.writeText(text).then(() => {
+        alert("Result copied! Paste it in Instagram 🚀");
+    });
 }
 </script>
 
