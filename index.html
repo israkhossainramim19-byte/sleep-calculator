@@ -5,103 +5,129 @@
     <title>Lifetime Sleep Calculator</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <style>
-        :root {
-            --percentage: 0;
-        }
+ <style>
+:root {
+    --percentage: 0;
+}
 
-        body {
-            margin: 0;
-            font-family: 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #141E30, #243B55);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            color: white;
-        }
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: radial-gradient(circle at top, #1f2a44, #0d1117);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    color: white;
+}
 
-        .card {
-            background: rgba(255,255,255,0.12);
-            backdrop-filter: blur(15px);
-            padding: 30px;
-            border-radius: 20px;
-            width: 350px;
-            text-align: center;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
-        }
+.card {
+    background: rgba(255,255,255,0.06);
+    backdrop-filter: blur(20px);
+    padding: 35px;
+    border-radius: 24px;
+    width: 360px;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+    border: 1px solid rgba(255,255,255,0.1);
+    transition: 0.4s ease;
+}
 
-        h2 {
-            margin-bottom: 20px;
-        }
+.card:hover {
+    transform: translateY(-5px);
+}
 
-        input {
-            width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            border-radius: 10px;
-            border: none;
-            font-size: 16px;
-            outline: none;
-        }
+h2 {
+    margin-bottom: 20px;
+    font-weight: 600;
+}
 
-        button {
-            width: 100%;
-            padding: 12px;
-            margin-top: 15px;
-            border: none;
-            border-radius: 10px;
-            font-size: 16px;
-            cursor: pointer;
-            background: #00c6ff;
-            color: white;
-            transition: 0.3s;
-        }
+input {
+    width: 100%;
+    padding: 14px;
+    margin: 12px 0;
+    border-radius: 12px;
+    border: none;
+    font-size: 16px;
+    background: rgba(255,255,255,0.08);
+    color: white;
+}
 
-        button:hover {
-            background: #0072ff;
-            transform: scale(1.05);
-        }
+input::placeholder {
+    color: rgba(255,255,255,0.5);
+}
 
-        .result {
-            margin-top: 20px;
-            opacity: 0;
-            transition: opacity 0.6s ease;
-        }
+button {
+    width: 100%;
+    padding: 14px;
+    margin-top: 15px;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    cursor: pointer;
+    background: linear-gradient(135deg, #00c6ff, #0072ff);
+    color: white;
+    transition: 0.3s;
+}
 
-        .show {
-            opacity: 1;
-        }
+button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(0,198,255,0.6);
+}
 
-        .circle {
-            width: 160px;
-            height: 160px;
-            border-radius: 50%;
-            margin: 20px auto;
-            background: conic-gradient(
-                #00c6ff calc(var(--percentage) * 1%),
-                rgba(255,255,255,0.15) 0%
-            );
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+.result {
+    margin-top: 25px;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
 
-        .number {
-            font-size: 32px;
-            font-weight: bold;
-        }
+.show {
+    opacity: 1;
+}
 
-        .big-text {
-            font-size: 18px;
-            margin-top: 10px;
-        }
+/* Premium Animated Circle */
+.circle {
+    width: 170px;
+    height: 170px;
+    border-radius: 50%;
+    margin: 20px auto;
+    background: conic-gradient(
+        #00c6ff calc(var(--percentage) * 1%),
+        rgba(255,255,255,0.08) 0%
+    );
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    box-shadow: 0 0 30px rgba(0,198,255,0.4);
+    transition: background 1.2s ease;
+}
 
-        .sub-text {
-            font-size: 14px;
-            opacity: 0.8;
-        }
-    </style>
+.circle::before {
+    content: "";
+    position: absolute;
+    width: 135px;
+    height: 135px;
+    background: #0d1117;
+    border-radius: 50%;
+}
+
+.number {
+    position: relative;
+    font-size: 36px;
+    font-weight: bold;
+}
+
+.big-text {
+    font-size: 18px;
+    margin-top: 10px;
+}
+
+.sub-text {
+    font-size: 14px;
+    opacity: 0.7;
+}
+</style>
 </head>
 
 <body>
@@ -147,7 +173,20 @@ function calculateSleep() {
         </button>
     `;
 
-    document.documentElement.style.setProperty('--percentage', percentage);
+    let start = 0;
+let end = percentage;
+let duration = 1000;
+let increment = end / (duration / 16);
+
+let counter = setInterval(() => {
+    start += increment;
+    if (start >= end) {
+        start = end;
+        clearInterval(counter);
+    }
+    document.documentElement.style.setProperty('--percentage', start);
+    document.querySelector('.number').textContent = start.toFixed(1) + "%";
+}, 16);
     resultBox.classList.add("show");
 }
 
